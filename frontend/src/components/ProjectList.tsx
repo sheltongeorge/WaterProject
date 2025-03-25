@@ -1,5 +1,6 @@
 import { useState, useEffect, use } from 'react';
-import { Project } from './types/Project';
+import { Project } from '../types/Project';
+import { useNavigate } from 'react-router-dom';
 
 function ProjectList({ selectedCategories }: { selectedCategories: string[] }) {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -13,13 +14,14 @@ function ProjectList({ selectedCategories }: { selectedCategories: string[] }) {
   // this will be used to get the page numbers and change the page numbers
   const [totalItems, setTotalItems] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
       const categoryParams = selectedCategories
         .map((cat) => `projectTypes=${encodeURIComponent(cat)}`)
         .join('&');
-                    // this is what we will be putting onto our request, it iterates through the project types to be able to tell the API which we want.
+      // this is what we will be putting onto our request, it iterates through the project types to be able to tell the API which we want.
 
       const response = await fetch(
         `https://localhost:5000/water/allprojects?pageSize=${pageSize}&pageNum=${pageNum}${selectedCategories.length ? `&${categoryParams}` : ''}`, //the last part of this is an if statement: if selectedCategories has a length, then send the string const categoryParams, Else ''
@@ -69,6 +71,13 @@ function ProjectList({ selectedCategories }: { selectedCategories: string[] }) {
                   {p.projectFunctionalityStatus}
                 </li>
               </ul>
+
+              <button
+                className="btn btn-success"
+                onClick={() => navigate(`/donate/${p.projectName}/${p.projectId}`)}  // navigation
+              >
+                Donate
+              </button>
             </div>
           </div>
         )

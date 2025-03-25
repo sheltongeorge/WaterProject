@@ -1,34 +1,29 @@
 import './App.css';
-import CategoryFilter from './CategoryFilter';
+import ProjectsPage from './pages/ProjectsPage';
 import Fingerprint from './Fingerprint';
-import ProjectList from './ProjectList';
 import CookieConsent from 'react-cookie-consent';
-import WelcomeBand from './WelcomeBand';
-import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DonatePage from './pages/DonatePage';
+import CartPage from './pages/CartPage';
+import { CartProvider } from './context/CartContext';
 
 function App() {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  // this is updated by the function "handleCheckboxChange" in the CategoryFilter.tsx file. 
-  // It is then sent through to be received in functions: ProjectList  &  CategoryFilter
-
   return (
     <>
-      <div className="container">
-        <div className="row bg-primary text-white">
-          <WelcomeBand />
-        </div>
-        <div className="row">
-          <div className="col-md-3">
-            <CategoryFilter
-              selectedCategories={selectedCategories}
-              setSelectedCategories={setSelectedCategories}
+      <CartProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<ProjectsPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route
+              path="/donate/:projectName/:projectId"
+              element={<DonatePage />}
             />
-          </div>
-          <div className="col-md-9">
-            <ProjectList selectedCategories={selectedCategories} />
-          </div>
-        </div>
-      </div>
+            <Route path="/cart" element={<CartPage />} />
+          </Routes>
+        </Router>
+      </CartProvider>
+
       <CookieConsent>
         This website uses cookies to enhance the user experience.
       </CookieConsent>
