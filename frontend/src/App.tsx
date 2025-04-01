@@ -1,11 +1,12 @@
 import './App.css';
 import ProjectsPage from './pages/ProjectsPage';
-import Fingerprint from './Fingerprint';
-import CookieConsent from 'react-cookie-consent';
+// import Fingerprint from './Fingerprint';
+// import CookieConsent from 'react-cookie-consent';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DonatePage from './pages/DonatePage';
 import CartPage from './pages/CartPage';
 import { CartProvider } from './context/CartContext';
+import AdminProjectsPage from './pages/AdminProjectsPage';
 
 function App() {
   return (
@@ -20,14 +21,15 @@ function App() {
               element={<DonatePage />}
             />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/adminprojects" element={<AdminProjectsPage />} />
           </Routes>
         </Router>
       </CartProvider>
-
+{/* 
       <CookieConsent>
         This website uses cookies to enhance the user experience.
       </CookieConsent>
-      <Fingerprint />
+      <Fingerprint /> */}
     </>
   );
 }
